@@ -1,10 +1,11 @@
-CREATE VIEW vw_complete_users AS
+CREATE OR REPLACE VIEW vw_complete_users AS
 SELECT 
     u.id, 
-    u.name, 
+    u.name AS user_name, 
     u.institutional_email, 
-    u.user_type, s.enrollment_number, 
-    c.name, 
+    u.user_type, 
+    s.enrollment_number, 
+    c.name AS course_name,
     p.credential_number
 FROM users u
 LEFT JOIN students s ON u.id = s.id_user
@@ -30,17 +31,17 @@ JOIN events e ON re.id_event = e.id;
 
 CREATE OR REPLACE VIEW vw_user_activity_registrations AS
 SELECT 
-    ra.id,
+    ra.id AS registration_id,
     ra.registration_date,
-    u.id,
-    u.name,
+    u.id AS user_id,
+    u.name AS user_name,
     u.institutional_email,
-    a.id,
-    a.name,
+    a.id AS activity_id,
+    a.name AS activity_name,
     a.category,
     a.date_start,
     a.date_end,
-    e.name  
+    e.name AS event_name  
 FROM registrations_activity ra
 JOIN users u ON ra.id_participant = u.id
 JOIN activities a ON ra.id_activity = a.id
