@@ -14,13 +14,13 @@ LEFT JOIN employees e ON u.id = e.id_user;
 
 CREATE VIEW vw_user_event_registrations AS
 SELECT 
-    re.id,
+    re.id AS registration_id,
     re.registration_date,
-    u.id,
-    u.name,
+    u.id AS user_id,
+    u.name AS user_name,
     u.institutional_email,
-    e.id,
-    e.name,
+    e.id AS event_id,
+    e.name AS event_name,
     e.date_start,
     e.date_end,
     e.name_organizer
