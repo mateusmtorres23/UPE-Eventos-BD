@@ -45,3 +45,28 @@ func (q *Queries) CreateSpaceReservation(ctx context.Context, arg CreateSpaceRes
 	)
 	return i, err
 }
+
+const getUserByEmail = `-- name: GetUserByEmail :one
+SELECT id, name, institutional_email, password_hash, user_type FROM users WHERE institutional_email = $1
+`
+
+type GetUserByEmailRow struct {
+	ID                 pgtype.UUID
+	Name               string
+	InstitutionalEmail string
+	PasswordHash       string
+	UserType           TypeUser
+}
+
+func (q *Queries) GetUserByEmail(ctx context.Context, institutionalEmail string) (GetUserByEmailRow, error) {
+	row := q.db.QueryRow(ctx, getUserByEmail, institutionalEmail)
+	var i GetUserByEmailRow
+	err := row.Scan(
+		&i.ID,
+		&i.Name,
+		&i.InstitutionalEmail,
+		&i.PasswordHash,
+		&i.UserType,
+	)
+	return i, err
+}

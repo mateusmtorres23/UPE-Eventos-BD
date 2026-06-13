@@ -4,3 +4,7 @@ INSERT INTO space_reservations (
 ) VALUES (
     $1, $2, $3, $4, $5
 ) RETURNING *;
+
+
+-- name: GetUserByEmail :one
+SELECT id, name, institutional_email, password_hash, user_type FROM users WHERE institutional_email = $1;
